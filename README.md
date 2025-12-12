@@ -40,7 +40,7 @@ The implementation is heavily inspired by the educational materials and mini-pro
 
 ---
 
-## 🏗️ Model Architecture
+## ⚙️Model Architecture
 
 The model is an extremely simple, single-layer neural network that serves a replacement for the traditional count-based Trigram matrix.
 
