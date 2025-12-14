@@ -12,7 +12,7 @@ The primary inspiration for this project comes from the educational series **"Ne
 * **Added Value:** The notebooks include several custom experiments.
 
 
-## 🔬 **Project Part Pescription**
+## 🔬 **Project Part Description**
 
 | Part | File | Description |
 | :--- | :--- | :--- |
