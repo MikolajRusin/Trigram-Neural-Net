@@ -277,7 +277,7 @@ Once the model is trained, it can be used to generate new sequences (names):
 
 ---
 
-### 💡Model Initialization and Loss Baseline (E02)
+### 💡Model Initialization and Loss Baseline
 
 #### 1. Theoretical Uniform Loss
 
