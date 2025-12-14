@@ -169,7 +169,7 @@ Instead of representing a character by a sparse one-hot vector (e.g., [0, 0, 1, 
 
 ---
 
-### 🔢 MLP Model Architecture
+### 🔢MLP Model Architecture
 
 This implementation utilizes a **three-layer Multi-Layer Perceptron (MLP)**. The model takes a sequence of three characters as context ($C_1C_2C_3$) and processes them through an embedding layer and two non-linear hidden layers before generating the final prediction.
 
@@ -207,7 +207,7 @@ $$\text{Loss} = \text{CrossEntropy}(\text{Logits}, Y_{\text{true}})$$
 
 ---
 
-### ⚙️MLP Training and Evaluation
+### MLP Training and Evaluation
 
 #### 1. Data Split Strategy
 
@@ -239,7 +239,7 @@ This **step decay** approach ensures the model can escape early local minima whi
 
 ---
 
-### ✨ MLP Example Results
+### ✨MLP Example Results
 
 #### Model Inference (Generation)
 
