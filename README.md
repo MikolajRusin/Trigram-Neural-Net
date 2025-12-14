@@ -29,7 +29,7 @@ The primary inspiration for this project comes from the educational series **"Ne
   - [Example Results](#example-results)
 - [MLP Language Model](#mlp-language-model)
    - [Part Overview](#mlp-part-overview)
-   - [What is an Embedding Layer?](#what-is-an-embedding-layer?)
+   - [What is an Embedding Layer](#what-is-an-embedding-layer)
    - [Model Architecture](#mlp-model-architecture)
    - [MLP Training and Evaluation](#mlp-training-and-evaluation)
    - [MLP Example Results](#mlp-example-results)
@@ -152,7 +152,7 @@ The resulting deep model is significantly more powerful, capable of capturing co
 
 ---
 
-### 💡What is an Embedding Layer?
+### 💡What is an Embedding Layer
 
 An **Embedding Layer** is essentially a **lookup table** (a weight matrix ***C***). It maps discrete, high-dimensional tokens (such as a character represented by a single integer ID) into a continuous, low-dimensional vector space.
 
