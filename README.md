@@ -18,7 +18,7 @@ The primary inspiration for this project comes from the educational series **"Ne
 | :--- | :--- | :--- |
 | Part_1 | `Trigram_Neural_Net` | The statistical baseline and simple neural network model for next-character prediction.
 | Part_2 | `MLP_Language_Model` | Building an MLP with an **Embedding Layer**.
-| Part_2 | `MLP_Activations_Gradients_and_BatchNorm` | Explanation of Activation functions, gradients and Batch Normalization.
+| Part_3 | `MLP_Activations_Gradients_and_BatchNorm` | Explanation of Activation functions, gradients and Batch Normalization.
 
 ---
 
