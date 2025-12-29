@@ -317,7 +317,7 @@ The tuned initialization strategy (small weights and zero biases) ensures logits
 
 ---
 
-## 🧠(Part 3) MLP Activations Gradients and Batch Normalization
+## 🧠MLP Activations Gradients and Batch Normalization
 
 ### 📜MLP Part 3 Overview
 
