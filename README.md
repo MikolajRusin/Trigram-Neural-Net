@@ -317,9 +317,9 @@ The tuned initialization strategy (small weights and zero biases) ensures logits
 
 ---
 
-## 🧠 (Part 3) MLP Activations, Gradients and Batch Normalization
+## 🧠(Part 3) MLP Activations, Gradients and Batch Normalization
 
-### 📜 MLP Part 3 Overview
+### 📜MLP Part 3 Overview
 
 This part focuses on a deeper, more **theoretical analysis** of neural network training dynamics.  
 Rather than introducing a fundamentally new architecture, the goal here is to **understand why neural networks train well (or fail to train)** by inspecting:
@@ -332,7 +332,7 @@ This section closely follows the *“Activations, Gradients, and Batch Normaliza
 
 ---
 
-### 🔍 MLP Part 3 Key Topics Explored
+### 🔍MLP Part 3 Key Topics Explored
 
 * **Activation Distributions**
   - Analysis of hidden layer activations after $\tanh$
@@ -355,20 +355,7 @@ This section closely follows the *“Activations, Gradients, and Batch Normaliza
 
 ---
 
-### 🧪 Experimental Approach
-
-This part is **experiment-driven** and intentionally lightweight in prose.
-
-Most of the explanations are embedded **directly in the code**, where intermediate tensors are:
-- logged,
-- visualized using histograms,
-- and inspected numerically (mean, std, saturation ratios).
-
-The objective is to **build intuition** by observing how small changes in initialization and normalization dramatically affect training stability.
-
----
-
-### ✅ MLP Part 3 Key Takeaways
+### ✅MLP Part 3 Key Takeaways
 
 * Naive random initialization leads to:
   - highly saturated activations,
