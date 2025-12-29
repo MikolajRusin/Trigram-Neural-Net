@@ -35,7 +35,7 @@ The primary inspiration for this project comes from the educational series **"Ne
    - [MLP Training and Evaluation](#mlp-training-and-evaluation)
    - [MLP Example Results](#mlp-example-results)
    - [Model Initialization and Loss Baseline](#model-initialization-and-loss-baseline)
-- [(Part 3) MLP Activations, Gradients and BatchNorm](#mlp-activations-gradients-and-batchnorm)
+- [(Part 3) MLP Activations, Gradients and BatchNorm](#mlp-activations-gradients-and-batchnormalization)
    - [Part Overview](#mlp-part-3-overview)
    - [Key Topics Explored](#mlp-part-3-key-topics-explored)
    - [Key Takeaways](#mlp-part-3-key-takeaways)
