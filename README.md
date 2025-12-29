@@ -37,8 +37,8 @@ The primary inspiration for this project comes from the educational series **"Ne
    - [Model Initialization and Loss Baseline](#model-initialization-and-loss-baseline)
 - [(Part 3) MLP Activations, Gradients and BatchNorm](#mlp-activations-gradients-and-batchnorm)
    - [Part Overview](#mlp-part-3-overview)
+   - [Key Topics Explored](#mlp-part-3-key-topics-explored)
    - [Key Takeaways](#mlp-part-3-key-takeaways)
-   - [Key Topics Explored](#mlp-part-3-topics-explored)
 
 ---
 
@@ -317,7 +317,7 @@ The tuned initialization strategy (small weights and zero biases) ensures logits
 
 ---
 
-## 🧠(Part 3) MLP Activations, Gradients and Batch Normalization
+## 🧠(Part 3) MLP Activations Gradients and Batch Normalization
 
 ### 📜MLP Part 3 Overview
 
