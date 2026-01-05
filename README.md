@@ -19,6 +19,7 @@ The primary inspiration for this project comes from the educational series **"Ne
 | Part_1 | `Trigram_Neural_Net` | The statistical baseline and simple neural network model for next-character prediction.
 | Part_2 | `MLP_Language_Model` | Building an MLP with an **Embedding Layer**.
 | Part_3 | `MLP_Activations_Gradients_and_BatchNorm` | Explanation of Activation functions, gradients and Batch Normalization.
+| Part_5 | `Building_WaveNet` | Implementing model architecture similar to WaveNet.
 
 ---
 
@@ -39,6 +40,13 @@ The primary inspiration for this project comes from the educational series **"Ne
    - [Part Overview](#mlp-part-3-overview)
    - [Key Topics Explored](#mlp-part-3-key-topics-explored)
    - [Key Takeaways](#mlp-part-3-key-takeaways)
+- [(Part 5) Building WaveNet](#building-wavenet)
+   - [Part Overview](#part-5-overview)
+   - [Core Ideas Introduced in This Part](#core-ideas-introduced-in-this-part)
+   - [Architectural Intuition](#architectural-intuition)
+   - [FlattenConsecutive](#flattenconsequtive)
+   - [Model Architecture](#model-architecture)
+   - [Model Results](#model-results)
 
 ---
 
@@ -367,3 +375,210 @@ This section closely follows the *“Activations, Gradients, and Batch Normaliza
   - and significantly improve optimization dynamics.
 * While manual initialization strategies work well for shallow networks,
   modern deep models rely on principled initialization (e.g. Kaiming) and normalization layers.
+
+---
+
+## 🧠Building WaveNet
+
+### 📜Part 5 Overview
+In this part Andrej Karpathy introduces a hierarchical, context-aggregation architecture inspired by WaveNet.
+
+The key goal of this section is to overcome a fundamental limitation of the previous MLP Language Model (Part 2):
+> Flattening the entire context at once forces the model to learn all dependencies in a single step.
+
+Instead of concatenating the whole context into one large vector, this model learns language structure progressively, by modeling character representations through sequential layers.
+
+---
+
+### 🔍Core Ideas Introduced in This Part
+- **Fixed-Length Context Window**
+  - The model operates on a context of `block_size = 8` characters.
+  - This provides a wider receptive field than earlier models while maintaining a fixed input shape.
+
+- **Hierarchical Context Aggregation**
+  - Consecutive characters are grouped together step-by-step using a custom FlattenConsecutive layer.
+  - Each stage reduces the sequence length while increasing feature dimensionality.
+
+- **Progressive Feature Composition**
+  - The network first learns local patterns (e.g. character pairs),
+  - then patterns of patterns,
+  - until the entire context is summarized into a single vector.
+
+### Architectural Intuition
+Instead of treating the input context as a flat sequence:
+```markdown
+[c1, c2, c3, c4, c5, c6, c7, c8]
+```
+
+the model processes it hierarchically:
+```markdown
+[c1 c2] [c3 c4] [c5 c6] [c7 c8]
+      ↓
+ [ (c1c2)(c3c4) ] [ (c5c6)(c7c8) ]
+      ↓
+        [ full context representation ]
+```
+
+---
+
+### 🧩FlattenConsecutive
+
+#### Purpose
+`FlattenConsecutive` is used to **progressively aggregate context** instead of flattening the entire sequence at once.
+
+Rather than forcing the model to learn all dependencies in a single step, the context is compressed **stage by stage**, from local to global structure.  
+  
+#### How It Works
+
+The layer operates on tensors of shape:
+
+(B, T, C)
+
+where:
+- B – batch size
+- T – sequence length (context size)
+- C – feature dimension
+
+It groups `n` consecutive time steps and concatenates their features.  
+  
+#### Shape Transformation Example
+
+With:
+- `block_size = 8`
+- `embedding_dim = 10`
+- `n = 2`
+
+```text
+(32, 8, 10) → (32, 4, 20)
+```
+  
+Meaning:
+- sequence length is reduced: 8 -> 4
+- feature dimension is increased: 10 -> 20  
+  
+#### Why This Matters
+
+Each FlattenConsecutive layer:
+- allows the network to first learn local patterns, then patterns of patterns
+- builds a hierarchical representation of the input context
+
+---
+
+### 🏗️Model Architecture
+
+The model is implemented as a simple `Sequential` container, closely following the architecture:
+
+```python
+model = Sequential([
+    Embedding(vocab_size, n_embd),
+    FlattenConsequtive(n_flatten), Linear(n_embd * n_flatten, n_hidden, bias=False), BatchNorm1d(n_hidden), Tanh(),
+    FlattenConsequtive(n_flatten), Linear(n_hidden * n_flatten, n_hidden, bias=False), BatchNorm1d(n_hidden), Tanh(),
+    FlattenConsequtive(n_flatten), Linear(n_hidden * n_flatten, n_hidden, bias=False), BatchNorm1d(n_hidden), Tanh(),
+    Linear(n_hidden, vocab_size)
+])
+```
+---
+
+#### Embedding
+Converts character indices into dense vector representations.
+
+- Input shape: `(batch_size, block_size)`
+- Output shape: `(batch_size, block_size, n_embd)`
+- Learns continuous representations of characters used throughout the model.
+
+---
+
+#### FlattenConsecutive
+Groups consecutive time steps and concatenates their feature vectors.
+
+- Reduces the sequence length
+- Increases feature dimensionality
+- Enables hierarchical aggregation of context
+
+This layer is applied multiple times to progressively compress the input sequence.
+
+---
+
+#### Linear
+Applies a fully connected transformation to the grouped features.
+
+- Mixes information within each grouped context window
+- Bias is disabled because Batch Normalization follows immediately
+
+---
+
+#### BatchNorm1d
+Normalizes activations to stabilize and speed up training.
+
+- Maintains running mean and variance for inference
+- Allows higher learning rates and smoother optimization
+
+---
+
+#### Tanh
+Applies a non-linear activation function.
+
+- Introduces non-linearity between linear layers
+
+---
+
+#### Final Linear Layer
+Projects the final hidden representation to vocabulary logits.
+
+- Input shape: `(B, n_hidden)`
+- Output shape: `(B, vocab_size)`
+- Produces unnormalized scores for next-character prediction
+
+---
+
+#### Architectural Summary
+- Context length is reduced progressively: `8 -> 4 -> 2 -> 1`
+- The model learns local patterns first, then combines them into global context
+- This hierarchical structure provides a strong inductive bias for language modeling
+
+---
+
+### 📊Model Results
+
+The model was trained with parameters:
+```python
+vocab_size = 27
+n_embd = 10
+n_hidden = 64
+n_flatten = 2
+n_steps = 200000
+batch_size = 32
+```
+After training, the model achieved a significantly improved performance compared to earlier MLP-based architectures.
+
+- **Train Loss:** ~ **1.75**
+- **Validation Loss:** ~ **1.86**
+
+The hierarchical aggregation of context allows the model to capture longer-range dependencies more effectively, resulting in lower loss despite a relatively small parameter count.
+
+---
+
+Below are example names generated by the trained model:
+
+```text
+.wrens.
+.veriyanna.
+.brinn.
+.tarriana.
+.inai.
+.yashir.
+.ajesen.
+.fawcen.
+.zaylee.
+.testyn.
+.joskar.
+.brihan.
+.alisha.
+.giraque.
+.viminda.
+.oszia.
+.armane.
+.jeylen.
+.jerrick.
+.vian.
+```
