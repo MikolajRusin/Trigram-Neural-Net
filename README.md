@@ -44,8 +44,8 @@ The primary inspiration for this project comes from the educational series **"Ne
    - [Part Overview](#part-5-overview)
    - [Core Ideas Introduced in This Part](#core-ideas-introduced-in-this-part)
    - [Architectural Intuition](#architectural-intuition)
-   - [FlattenConsecutive](#flattenconsequtive)
-   - [Model Architecture](#model-architecture)
+   - [FlattenConsecutive](#flattenconsecutive)
+   - [Model Architecture](#model-architecture-part-5)
    - [Model Results](#model-results)
 
 ---
@@ -464,16 +464,16 @@ Each FlattenConsecutive layer:
 
 ---
 
-### 🏗️Model Architecture
+### 🏗️Model Architecture Part 5
 
 The model is implemented as a simple `Sequential` container, closely following the architecture:
 
 ```python
 model = Sequential([
     Embedding(vocab_size, n_embd),
-    FlattenConsequtive(n_flatten), Linear(n_embd * n_flatten, n_hidden, bias=False), BatchNorm1d(n_hidden), Tanh(),
-    FlattenConsequtive(n_flatten), Linear(n_hidden * n_flatten, n_hidden, bias=False), BatchNorm1d(n_hidden), Tanh(),
-    FlattenConsequtive(n_flatten), Linear(n_hidden * n_flatten, n_hidden, bias=False), BatchNorm1d(n_hidden), Tanh(),
+    FlattenConsecutive(n_flatten), Linear(n_embd * n_flatten, n_hidden, bias=False), BatchNorm1d(n_hidden), Tanh(),
+    FlattenConsecutive(n_flatten), Linear(n_hidden * n_flatten, n_hidden, bias=False), BatchNorm1d(n_hidden), Tanh(),
+    FlattenConsecutive(n_flatten), Linear(n_hidden * n_flatten, n_hidden, bias=False), BatchNorm1d(n_hidden), Tanh(),
     Linear(n_hidden, vocab_size)
 ])
 ```
